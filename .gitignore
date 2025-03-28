@@ -1,0 +1,38 @@
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*.so
+*.pyd
+
+# Virtual environments (like your "pdm_env")
+pdm_env/
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# Environment/data files
+.env
+*.env
+*.DS_Store
+
+# VS Code settings (optional, if you don’t want to share them)
+.vscode/
+
+# Package distribution (if ever packaging it)
+build/
+dist/
+*.egg-info/
+
+# Test reports or coverage
+htmlcov/
+.tox/
+.coverage
+
+# Logs and temporary stuff
+*.log
+*.tmp
+*.bak
+
+# Pip requirements lock files (optional)
+poetry.lock
+Pipfile.lock
