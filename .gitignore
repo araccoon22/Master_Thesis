@@ -14,6 +14,7 @@ pdm_env/
 .env
 *.env
 *.DS_Store
+Data/
 
 # VS Code settings (optional, if you don’t want to share them)
 .vscode/
