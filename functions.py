@@ -92,3 +92,35 @@ def compute_apical_diagrams(
     print(f"[{group_name}] Computed {len(diagrams)} persistence diagrams for {neuron_part}s.")
     
     return diagrams
+
+def format_diagrams_for_gtda(diagrams, hom_dim=1):
+    """
+    Convert diagrams from (death, birth) or (birth, death) to (birth, death, dim),
+    flipping coordinates only if birth > death.
+    """
+    formatted = []
+    for diag in diagrams:
+        arr = np.array(diag)
+        corrected = []
+        for point in arr:
+            birth, death = sorted(point[:2])  # ensures birth ≤ death
+            corrected.append([birth, death])
+        corrected = np.array(corrected)
+        dim_col = np.full((corrected.shape[0], 1), hom_dim)
+        diagram_hom = np.hstack([corrected, dim_col])  # (n_points, 3)
+        formatted.append(diagram_hom)
+    return formatted
+
+
+def pad_diagrams(diagrams, dim=1):
+    max_len = max(len(d) for d in diagrams)
+    padded = []
+    for d in diagrams:
+        n = len(d)
+        if n < max_len:
+            # use zeros instead of -inf
+            padding = np.zeros((max_len - n, 3))
+            padding[:, 2] = dim  # preserve homology dimension
+            d = np.vstack([d, padding])
+        padded.append(d)
+    return np.stack(padded)
