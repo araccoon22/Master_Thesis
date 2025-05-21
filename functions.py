@@ -1,9 +1,13 @@
 import importlib
 import numpy as np
 import tmd
+
 import os
 from typing import List, Dict
-import tmd
+
+
+import gtda
+from gtda.diagrams import Silhouette
 
 def check_and_load_neurons(
     main_path: str,
@@ -124,3 +128,69 @@ def pad_diagrams(diagrams, dim=1):
             d = np.vstack([d, padding])
         padded.append(d)
     return np.stack(padded)
+
+
+def bootstrap_sample_from_diagrams(
+    diagrams: np.ndarray,
+    B: int
+):
+    """
+    Apply the bootstrap procedure using persistence diagrams to compute
+    distances between bootstrap mean silhouettes and the original mean.
+
+    Arguments:
+        - diagrams : np.ndarray
+            Original persistence diagrams
+        - B : int
+            Number of bootstrap repetitions
+
+    Returns:
+        - resampled_silhouettes_mouse : 
+            Silhouette persistence from the resampled diagrams
+        - bootstrap_distances : List[float]
+            Sup-norm distances between bootstrap means and original mean.
+        - bootstrap_means : List[np.ndarray]
+            List of (1, n_bins) mean silhouette curves from each bootstrap.
+        - bootstrap_diagrams : List[np.ndarray]
+            List of (n, ?, 3) arrays of the diagrams used in each bootstrap round.
+    """
+    n = len(diagrams)
+    bootstrap_distances = []
+    bootstrap_means = []
+    bootstrap_diagrams = []
+    resampled_silhouettes = []
+    sil = Silhouette()
+
+    #Compute the original mean
+    formated_og = format_diagrams_for_gtda(diagrams)
+    padded_og= pad_diagrams(formated_og)
+    silhouettes = sil.fit_transform(padded_og)
+    silhouettes_mean = np.mean(silhouettes, axis=0)
+
+
+    #Bootstrap procedure
+    for _ in range(B):
+        # Step 1: Resample diagrams with replacement
+        indices = np.random.choice(n, size=n, replace=True)
+        resampled_diagrams = [diagrams[i] for i in indices]
+
+        # Step 2: Transform the resampled diagrams to fit the right format for the silhouette
+        formated_diagrams = format_diagrams_for_gtda(resampled_diagrams)
+        padded_diagrams = pad_diagrams(formated_diagrams)
+
+        # Step 3: Compute silhouette summaries for resampled diagrams
+        resampled_silhouette = sil.fit_transform(padded_diagrams)
+
+        # Step 4: Compute bootstrap mean silhouette
+        bootstrap_mean = np.mean(resampled_silhouette, axis=0)  
+        
+        # Step 5: Compute L∞ (sup) distance to original mean
+        dist = np.max(np.abs(bootstrap_mean - silhouettes_mean))
+
+        # Store results
+        resampled_silhouettes.append(resampled_silhouette)
+        bootstrap_distances.append(dist)
+        bootstrap_means.append(bootstrap_mean)
+        bootstrap_diagrams.append(resampled_diagrams)
+
+    return silhouettes_mean, resampled_silhouettes, bootstrap_distances, bootstrap_means, bootstrap_diagrams
