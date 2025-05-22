@@ -191,6 +191,5 @@ def bootstrap_sample_from_diagrams(
         resampled_silhouettes.append(resampled_silhouette)
         bootstrap_distances.append(dist)
         bootstrap_means.append(bootstrap_mean)
-        bootstrap_diagrams.append(resampled_diagrams)
 
-    return silhouettes_mean, resampled_silhouettes, bootstrap_distances, bootstrap_means, bootstrap_diagrams
+    return silhouettes_mean, resampled_silhouettes, bootstrap_distances, bootstrap_means
