@@ -63,7 +63,7 @@ def check_and_load_neurons(
 
     return grouped_neurons
 
-def compute_apical_diagrams(
+def compute_diagrams(
     neurons: List,
     group_name: str,
     neuron_part: str,
@@ -194,3 +194,59 @@ def bootstrap_sample_from_diagrams(
         bootstrap_means.append(bootstrap_mean)
 
     return silhouettes_mean, resampled_silhouettes, bootstrap_distances, bootstrap_means
+
+def permutation_test_silhouettes(
+    silhouettes_A: np.ndarray, 
+    silhouettes_B: np.ndarray, 
+    n_permutations = 1000, 
+    metric = 'linf'
+):
+    """
+    Perform a permutation test on the mean silhouette curves of two groups.
+    
+    Parameters:
+        silhouettes_A (np.ndarray): Group A silhouettes
+        silhouettes_B (np.ndarray): Group B silhouettes
+        n_permutations (int): Number of permutations
+        metric (str): 'linf' for max abs diff, 'l2' for squared diff
+
+    Returns:
+        p_value (float): Estimated p-value
+        observed_stat (float): Observed distance between group means
+        null_distribution (np.ndarray): Array of permuted test statistics
+    """
+    n_A = len(silhouettes_A)
+    n_B = len(silhouettes_B)
+
+    # Compute observed test statistic
+    mean_A = np.mean(silhouettes_A, axis=0)
+    mean_B = np.mean(silhouettes_B, axis=0)
+    if metric == 'linf':
+        observed_stat = np.max(np.abs(mean_A - mean_B))
+    elif metric == 'l2':
+        observed_stat = np.sqrt(np.sum((mean_A - mean_B) ** 2))
+    else:
+        raise ValueError("Unsupported metric. Use 'linf' or 'l2'.")
+
+    # Pool and permute
+    combined = np.vstack([silhouettes_A, silhouettes_B])
+    null_distribution = []
+    
+    for _ in range(n_permutations):
+        np.random.shuffle(combined)
+        perm_A = combined[:n_A]
+        perm_B = combined[n_A:]
+        mean_perm_A = np.mean(perm_A, axis=0)
+        mean_perm_B = np.mean(perm_B, axis=0)
+
+        if metric == 'linf':
+            stat = np.max(np.abs(mean_perm_A - mean_perm_B))
+        else:
+            stat = np.sqrt(np.sum((mean_perm_A - mean_perm_B) ** 2))
+
+        null_distribution.append(stat)
+
+    null_distribution = np.array(null_distribution)
+    p_value = (np.sum(null_distribution >= observed_stat) + 1) / (n_permutations + 1)
+
+    return p_value, observed_stat, null_distribution
