@@ -66,7 +66,8 @@ def check_and_load_neurons(
 def compute_apical_diagrams(
     neurons: List,
     group_name: str,
-    neuron_part: str
+    neuron_part: str,
+    distance_type: str
 ) -> List:
     """
     Compute the persistence diagrams for a specified list of neurons
@@ -85,7 +86,7 @@ def compute_apical_diagrams(
     
     for idx, neu in enumerate(neurons):
         try:
-            ph = tmd.methods.get_ph_neuron(neu, neurite_type=neuron_part)
+            ph = tmd.methods.get_ph_neuron(neu, neurite_type=neuron_part, feature=distance_type)
             if ph is not None:
                 diagrams.append(ph)
             else:
