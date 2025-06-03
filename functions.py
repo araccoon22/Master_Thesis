@@ -199,7 +199,7 @@ def permutation_test_silhouettes(
     silhouettes_A: np.ndarray, 
     silhouettes_B: np.ndarray, 
     n_permutations = 1000, 
-    metric = 'linf'
+    metric = 'linf' #maximum absolute difference, using euclidian norm
 ):
     """
     Perform a permutation test on the mean silhouette curves of two groups.
@@ -215,13 +215,14 @@ def permutation_test_silhouettes(
         observed_stat (float): Observed distance between group means
         null_distribution (np.ndarray): Array of permuted test statistics
     """
-    n_A = len(silhouettes_A)
+    n_A = len(silhouettes_A) # sample size, used to preserve group proportions in permutations
     n_B = len(silhouettes_B)
 
-    # Compute observed test statistic
+    # Compute observed test statistic (using the appropriate formulas)
     mean_A = np.mean(silhouettes_A, axis=0)
     mean_B = np.mean(silhouettes_B, axis=0)
-    if metric == 'linf':
+    
+    if metric == 'linf': # biggest pointwise difference between the two curve
         observed_stat = np.max(np.abs(mean_A - mean_B))
     elif metric == 'l2':
         observed_stat = np.sqrt(np.sum((mean_A - mean_B) ** 2))
@@ -229,16 +230,17 @@ def permutation_test_silhouettes(
         raise ValueError("Unsupported metric. Use 'linf' or 'l2'.")
 
     # Pool and permute
-    combined = np.vstack([silhouettes_A, silhouettes_B])
+    combined = np.vstack([silhouettes_A, silhouettes_B]) # combined dataset for permutation, so we can randomly assign new labels in each permutation.
     null_distribution = []
     
     for _ in range(n_permutations):
-        np.random.shuffle(combined)
-        perm_A = combined[:n_A]
-        perm_B = combined[n_A:]
-        mean_perm_A = np.mean(perm_A, axis=0)
+        np.random.shuffle(combined) # shuffle the combined dataset
+        perm_A = combined[:n_A] # assign first n_A samples to perm_A 
+        perm_B = combined[n_A:] # assign the rest to perm_B
+        mean_perm_A = np.mean(perm_A, axis=0) #compute mean silhouette curve
         mean_perm_B = np.mean(perm_B, axis=0)
 
+        #Compute the test statistic for the permuted assignment
         if metric == 'linf':
             stat = np.max(np.abs(mean_perm_A - mean_perm_B))
         else:
@@ -247,6 +249,6 @@ def permutation_test_silhouettes(
         null_distribution.append(stat)
 
     null_distribution = np.array(null_distribution)
-    p_value = (np.sum(null_distribution >= observed_stat) + 1) / (n_permutations + 1)
+    p_value = (np.sum(null_distribution >= observed_stat) + 1) / (n_permutations + 1) # probability that random groupings would create a difference as extreme as you observed.
 
     return p_value, observed_stat, null_distribution
