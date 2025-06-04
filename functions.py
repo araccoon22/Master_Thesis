@@ -252,3 +252,41 @@ def permutation_test_silhouettes(
     p_value = (np.sum(null_distribution >= observed_stat) + 1) / (n_permutations + 1) # probability that random groupings would create a difference as extreme as you observed.
 
     return p_value, observed_stat, null_distribution
+
+def within_group_permutation_test(
+    silhouettes: np.ndarray,
+    n_trials: int = 100, 
+    n_permutations: int = 500, 
+    metric: str = 'linf'
+):
+    """
+    Perform multiple permutation tests by randomly splitting a single group into two subgroups,
+    to estimate the level of variability expected within that group.
+
+    Parameters:
+        - silhouettes: The full array of silhouette vectors from one group
+        - n_trials: Number of times to randomly split the group and perform a permutation test (default = 100).
+        - n_permutations: Number of permutations to use within each trial to generate the null distribution (default = 500).
+        - metric: The distance metric used to compare the mean silhouette curves between subgroups. 
+                  Options are:
+                      - 'linf': maximum pointwise absolute difference (L∞ norm),
+                      - 'l2': Euclidean distance (L² norm).
+
+    Returns:
+        - stats: A 1D array of length `n_trials`, where each element is the observed test statistic 
+                 from comparing two random subgroups within the original group. This represents the
+                 distribution of within-group variability.
+    """
+    stats = []
+
+    for _ in range(n_trials):
+        indices = np.random.permutation(len(silhouettes))
+        split = len(indices) // 2
+        group1 = silhouettes[indices[:split]]
+        group2 = silhouettes[indices[split:]]
+
+        _, stat, _ = permutation_test_silhouettes(group1, group2, n_permutations=n_permutations, metric=metric)
+        stats.append(stat)
+
+    return np.array(stats)
+
