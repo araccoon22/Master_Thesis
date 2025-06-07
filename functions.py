@@ -195,7 +195,7 @@ def bootstrap_sample_from_diagrams(
 
     return silhouettes_mean, resampled_silhouettes, bootstrap_distances, bootstrap_means
 
-def permutation_test_silhouettes(
+def permutation_test(
     silhouettes_A: np.ndarray, 
     silhouettes_B: np.ndarray, 
     n_permutations = 1000, 
@@ -285,7 +285,7 @@ def within_group_permutation_test(
         group1 = silhouettes[indices[:split]]
         group2 = silhouettes[indices[split:]]
 
-        _, stat, _ = permutation_test_silhouettes(group1, group2, n_permutations=n_permutations, metric=metric)
+        _, stat, _ = permutation_test(group1, group2, n_permutations=n_permutations, metric=metric)
         stats.append(stat)
 
     return np.array(stats)
