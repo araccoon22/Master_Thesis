@@ -1,6 +1,7 @@
 import importlib
 import numpy as np
 import tmd
+import matplotlib.pyplot as plt
 
 import os
 from typing import List, Dict
@@ -140,10 +141,8 @@ def bootstrap_sample_from_diagrams(
     distances between bootstrap mean silhouettes and the original mean.
 
     Arguments:
-        - diagrams : np.ndarray
-            Original persistence diagrams
-        - B : int
-            Number of bootstrap repetitions
+        - diagrams : Original persistence diagrams
+        - B : Number of bootstrap repetitions
 
     Returns:
         - resampled_silhouettes_mouse : 
@@ -194,6 +193,18 @@ def bootstrap_sample_from_diagrams(
         bootstrap_means.append(bootstrap_mean)
 
     return silhouettes_mean, resampled_silhouettes, bootstrap_distances, bootstrap_means
+    
+def plot_entropy_summary(
+    entropies, 
+    bins, 
+    label, 
+    color
+):
+    mean = np.nanmean(entropies, axis=0)
+    std = np.nanstd(entropies, axis=0)
+
+    plt.plot(bins, mean, label=f"{label} (mean)", color=color)
+    plt.fill_between(bins, mean - std, mean + std, alpha=0.3, color=color)
 
 def permutation_test(
     silhouettes_A: np.ndarray, 
