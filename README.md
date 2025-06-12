@@ -1,5 +1,10 @@
 # Master_Thesis
 
+### Questions:
+- Do we have a implemented function to compute entropy (scalar) ? Was thinking of doing a mean of the entropy on all diagrams per group, just to have a numerical value (before showing life entropy curves)
+- Should we try on another data set ? for example, different cells within the same race (e.g. **reconstruced** dataset)
+- Focus on apical dendrite: will add in the appendix results for basal dendrite as well
+
 ### General Structure of the report
 - Introduction: General introduction on TDA, persistent Homology, why it's useful to biology (especially studies of neurons) and the context of this project
 - Theorical Foundation, emphasize on functional summaries 
@@ -11,7 +16,6 @@
 
 ### Next steps
 - *Problem with analysing the axons* $\to$ Told me they used a subset of axons, did only apical dendrite (will send me something to filter)
-- Need to apply the permutation test within the groupe
 
 ### Oral presentation
 
