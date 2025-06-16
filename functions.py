@@ -193,7 +193,28 @@ def bootstrap_sample_from_diagrams(
         bootstrap_means.append(bootstrap_mean)
 
     return silhouettes_mean, resampled_silhouettes, bootstrap_distances, bootstrap_means
+
+def compute_persistence_entropy(
+    diagram
+):
+    """
+    Compute the persistent entropy of a single persistence diagram.
     
+    Argument: diagram as a list of [birth, death] pairs
+    
+    """
+    diagram = np.array(diagram)
+    lifetimes = diagram[:, 0] - diagram[:, 1]  # birth - death
+    lifetimes = lifetimes[lifetimes > 0]       # ignore bars with non-positive lifetime
+
+    L = np.sum(lifetimes)
+    if L == 0:
+        return 0.0
+
+    probs = lifetimes / L
+    entropy = -np.sum(probs * np.log(probs))
+    return entropy
+
 def plot_entropy_summary(
     entropies, 
     bins, 
