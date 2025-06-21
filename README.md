@@ -1,7 +1,8 @@
 # Master_Thesis
 
 ### Questions:
-- Do we have a implemented function to compute entropy (scalar) ? Was thinking of doing a mean of the entropy on all diagrams per group, just to have a numerical value (before showing life entropy curves)
+- What do you think about the organisation of the sections ? Should we do another section for permutation testing ? 
+- Persistence Silhouette: interesting to see a lot of samples computed, how many samples ? Though of also comparing median/,ax/min on same gplot for boths groups
 - Should we try on another data set ? for example, different cells within the same race (e.g. **reconstruced** dataset)
 - Focus on apical dendrite: will add in the appendix results for basal dendrite as well
 
