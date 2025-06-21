@@ -1,6 +1,7 @@
 # Master_Thesis
 
 ### Questions:
+- Changing the title to: *"Evaluating Neuronal Structure through Functional Summaries of Persistent Homology"*
 - What do you think about the organisation of the sections ? Should we do another section for permutation testing ? 
 - Persistence Silhouette: interesting to see a lot of samples computed, how many samples ? Though of also comparing median/,ax/min on same gplot for boths groups
 - Should we try on another data set ? for example, different cells within the same race (e.g. **reconstruced** dataset)
