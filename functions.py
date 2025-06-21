@@ -228,17 +228,17 @@ def plot_entropy_summary(
     plt.fill_between(bins, mean - std, mean + std, alpha=0.3, color=color)
 
 def permutation_test(
-    silhouettes_A: np.ndarray, 
-    silhouettes_B: np.ndarray, 
+    curves_A: np.ndarray, 
+    curves_B: np.ndarray, 
     n_permutations = 1000, 
     metric = 'linf' #maximum absolute difference, using euclidian norm
 ):
     """
-    Perform a permutation test on the mean silhouette curves of two groups.
+    Perform a permutation test on two sets of functional curves (e.g., entropy, landscape and silhouette curves)
     
     Parameters:
-        silhouettes_A (np.ndarray): Group A silhouettes
-        silhouettes_B (np.ndarray): Group B silhouettes
+        curves_A (np.ndarray): Group A silhouettes
+        curves_B (np.ndarray): Group B silhouettes
         n_permutations (int): Number of permutations
         metric (str): 'linf' for max abs diff, 'l2' for squared diff
 
@@ -247,12 +247,12 @@ def permutation_test(
         observed_stat (float): Observed distance between group means
         null_distribution (np.ndarray): Array of permuted test statistics
     """
-    n_A = len(silhouettes_A) # sample size, used to preserve group proportions in permutations
-    n_B = len(silhouettes_B)
+    n_A = len(curves_A) # sample size, used to preserve group proportions in permutations
+    n_B = len(curves_B)
 
     # Compute observed test statistic (using the appropriate formulas)
-    mean_A = np.mean(silhouettes_A, axis=0)
-    mean_B = np.mean(silhouettes_B, axis=0)
+    mean_A = np.mean(curves_A, axis=0)
+    mean_B = np.mean(curves_B, axis=0)
     
     if metric == 'linf': # biggest pointwise difference between the two curve
         observed_stat = np.max(np.abs(mean_A - mean_B))
@@ -262,7 +262,7 @@ def permutation_test(
         raise ValueError("Unsupported metric. Use 'linf' or 'l2'.")
 
     # Pool and permute
-    combined = np.vstack([silhouettes_A, silhouettes_B]) # combined dataset for permutation, so we can randomly assign new labels in each permutation.
+    combined = np.vstack([curves_A, curves_B]) # combined dataset for permutation, so we can randomly assign new labels in each permutation.
     null_distribution = []
     
     for _ in range(n_permutations):
