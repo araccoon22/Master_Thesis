@@ -2,15 +2,19 @@
 
 ### Main questions of the Thesis:
 1. Do human and mouse neurons exhibit statistically significant differences in their topological structure? 
+
     *We seek to validate the findings in the recent paper using persistent homology and functional summaries.*
 
 2. Can persistent homology and its functional summaries effectively capture meaningful morphological variability across species? 
+
     *Are topological descriptors (like persistence landscapes and silhouettes) are informative and discriminative in a neuroscientific context?*
 
 3. Are the observed differences in topological descriptors robust to sampling variability and noise? 
+
     *we test this using statistical tools such as confidence bands and permutation tests, especially given the imbalance in sample sizes between humans and mice.*
 
 4. Which functional summary (entropy, landscape, silhouette) provides the most stable and interpretable representation for comparing neuron populations? 
+
     *While all are tested, this question evaluates their comparative usefulness for statistical inference.*
 
 
