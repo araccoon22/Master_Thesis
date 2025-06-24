@@ -1,23 +1,20 @@
 # Master_Thesis
 
-### Questions:
-- Changing the title to: *"Evaluating Neuronal Structure through Functional Summaries of Persistent Homology"*
-- What do you think about the organisation of the sections ? Should we do another section for permutation testing ? 
-- Persistence Silhouette: interesting to see a lot of samples computed, how many samples ? Though of also comparing median/,ax/min on same gplot for boths groups
-- Should we try on another data set ? for example, different cells within the same race (e.g. **reconstruced** dataset)
-- Focus on apical dendrite: will add in the appendix results for basal dendrite as well
+### Main questions of the Thesis:
+1. Do human and mouse neurons exhibit statistically significant differences in their topological structure? 
+    *We seek to validate the findings in the recent paper using persistent homology and functional summaries.*
 
-### General Structure of the report
-- Introduction: General introduction on TDA, persistent Homology, why it's useful to biology (especially studies of neurons) and the context of this project
-- Theorical Foundation, emphasize on functional summaries 
-- Package Overview: introduce TMD and Giotto-TDA
-- Application: Mouse vs human data set:
-    - general overview of the method confidence band -> permutation test within/in between groups
-    - results for different functional summaries: silhouette, landscape, entropy
+2. Can persistent homology and its functional summaries effectively capture meaningful morphological variability across species? 
+    *Are topological descriptors (like persistence landscapes and silhouettes) are informative and discriminative in a neuroscientific context?*
+
+3. Are the observed differences in topological descriptors robust to sampling variability and noise? 
+    *we test this using statistical tools such as confidence bands and permutation tests, especially given the imbalance in sample sizes between humans and mice.*
+
+4. Which functional summary (entropy, landscape, silhouette) provides the most stable and interpretable representation for comparing neuron populations? 
+    *While all are tested, this question evaluates their comparative usefulness for statistical inference.*
 
 
-### Next steps
-- *Problem with analysing the axons* $\to$ Told me they used a subset of axons, did only apical dendrite (will send me something to filter)
+
 
 ### Oral presentation
 
