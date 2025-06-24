@@ -1,42 +1,63 @@
-# Master_Thesis
+# 🧠 Master Thesis – Functional Summaries of Persistent Homology for Neuronal Morphologies
 
-### Main questions of the Thesis:
-1. Do human and mouse neurons exhibit statistically significant differences in their topological structure? 
+This repository contains the code, figures, and analysis conducted as part of my Master’s thesis in Applied Mathematics at EPFL, under the supervision of Kathryn Hess Bellwald and Lida Kanari.
 
-    *We seek to validate the findings in the recent paper using persistent homology and functional summaries.*
+The project investigates the use of **persistent homology** and **functional summaries** to detect and quantify topological differences in neuronal morphologies, with a focus on Layer 2/3 pyramidal neurons from human and mouse cortex.
 
-2. Can persistent homology and its functional summaries effectively capture meaningful morphological variability across species? 
+## 📂 Repository Structure
 
-    *Are topological descriptors (like persistence landscapes and silhouettes) are informative and discriminative in a neuroscientific context?*
-
-3. Are the observed differences in topological descriptors robust to sampling variability and noise? 
-
-    *we test this using statistical tools such as confidence bands and permutation tests, especially given the imbalance in sample sizes between humans and mice.*
-
-4. Which functional summary (entropy, landscape, silhouette) provides the most stable and interpretable representation for comparing neuron populations? 
-
-    *While all are tested, this question evaluates their comparative usefulness for statistical inference.*
-
-
-
-
-### Oral presentation
-
-**Tips**
-
-- Give some general context
-- could do a whole point on what is persistent diagram, how it works, how we get the silhouette, etc (explain what is the object we work with, also needed definition and/or thm, etc)
-- have some graphs to explain the definition over
-- have some example where my results could be used (either examples to motivate the project at the beginning, or applications we could use it for at the end) (could for example speak about classification of different type of cell)
+├── Images/                             # Figures used in the report
+├── Training_Scripts/                  # Helper scripts for functions and automation
+├── persistence_landscape_basal_axon/  # Full analysis for basal dendrites and axons
+├── 0_check_data.ipynb                 # Data loading and consistency checks
+├── 1_entropy.ipynb                    # Entropy summary analysis
+├── 2_persistence_landscape.ipynb      # Persistence landscape summary analysis
+├── 3_persistence_silhouette.ipynb     # Persistence silhouette summary analysis
+├── 4_permutation_test.ipynb           # Permutation tests for statistical validation
+├── functions.py                       # Shared utility functions
+├── PDM_Report.pdf                     # Final Master’s thesis report
+├── .gitignore                         # Ignored files and directories
+└── README.md                          # Project documentation
 
 
-**To look into**
-- Persistent cohomology enriches point clouds (that are poorly topological)
-- The more far a point is from the diagonal, the longer it lives (persistent diagram)
+## 🧪 Project Goals
 
-**For the report**
-- Have a general introduction on TDA and Homology
-- Could also try other functional summaries than persistent silhouette (and maybe justify why one is better than the other) (landscape and entropy)
-- Could see which part of the neurons gives the best results for the permutation tests
-- permutation test inside the groups itself
+This project answers four key questions:
+1. Do human and mouse pyramidal neurons differ topologically in a statistically meaningful way?
+2. Can functional summaries (entropy, landscape, silhouette) capture these differences?
+3. Are the differences robust with respect to intra-group variability?
+4. Which descriptors are most effective for statistical inference?
+
+## 🔍 Methods
+
+We use the **Topological Morphology Descriptor (TMD)** to compute persistence diagrams from neuronal reconstructions and analyze them using the following functional summaries:
+- **Persistence Entropy**: Scalar measure of topological disorder.
+- **Persistence Landscape**: Functional summary enabling rich statistical comparison.
+- **Persistence Silhouette**: Weighted average function focusing on high-persistence features.
+
+We apply **non-parametric permutation tests** and construct **bootstrap confidence bands** to validate statistical significance.
+
+## 📊 Key Findings
+
+| Descriptor             | Discriminative Power | Stability | Interpretability |
+|------------------------|----------------------|-----------|------------------|
+| Persistence Entropy    | Low                  | High      | High             |
+| Persistence Landscape  | High                 | High      | Medium           |
+| Persistence Silhouette | Medium               | Moderate  | Medium           |
+
+- The **persistence landscape** consistently provided the strongest performance.
+- Significant inter-species differences were detected in apical and basal dendrites.
+- Axonal differences were not statistically significant, likely due to reconstruction noise and sample size limitations.
+
+## 🚀 Future Work
+
+One promising direction is to explore **generalized persistence landscapes** (Berry et al., 2020). These allow greater flexibility in kernel design and may further improve the discriminative power of functional summaries.
+
+
+## 🔗 Links
+- 📦 [TMD Documentation](https://tmd.readthedocs.io/en/latest/)
+- 🧮 [Giotto-TDA Library](https://github.com/giotto-ai/giotto-tda)
+
+
+
 
