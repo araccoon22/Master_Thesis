@@ -1,4 +1,4 @@
-# 🧠 Master Thesis – Functional Summaries of Persistent Homology for Neuronal Morphologies
+# Master Thesis - Functional Summaries of Persistent Homology for Neuronal Morphologies 
 
 This repository contains the code, figures, and analysis conducted as part of my Master’s thesis in Applied Mathematics at EPFL, under the supervision of Kathryn Hess Bellwald and Lida Kanari.
 
@@ -6,18 +6,15 @@ The project investigates the use of **persistent homology** and **functional sum
 
 ## 📂 Repository Structure
 
-├── Images/                             # Figures used in the report
-├── Training_Scripts/                  # Helper scripts for functions and automation
-├── persistence_landscape_basal_axon/  # Full analysis for basal dendrites and axons
-├── 0_check_data.ipynb                 # Data loading and consistency checks
-├── 1_entropy.ipynb                    # Entropy summary analysis
-├── 2_persistence_landscape.ipynb      # Persistence landscape summary analysis
-├── 3_persistence_silhouette.ipynb     # Persistence silhouette summary analysis
-├── 4_permutation_test.ipynb           # Permutation tests for statistical validation
-├── functions.py                       # Shared utility functions
-├── PDM_Report.pdf                     # Final Master’s thesis report
-├── .gitignore                         # Ignored files and directories
-└── README.md                          # Project documentation
+- `0_check_data.ipynb`: Data loading and validation.
+- `1_entropy.ipynb`: Analysis using persistence entropy and life entropy curves.
+- `2_persistence_landscape.ipynb`: Analysis using persistence landscapes.
+- `3_persistence_silhouette.ipynb`: Analysis using persistence silhouette functions.
+- `4_permutation_test.ipynb`: Statistical testing via permutation tests.
+- `functions.py`: Utility functions for loading, plotting, and processing data.
+- `persistence_landscape_basal_axon/`: Replication of the pipeline for basal dendrites and axons.
+- `Images/`: Supporting figures for the report and notebooks.
+- `PDM_Report.pdf`: Final version of the master’s thesis report.
 
 
 ## 🧪 Project Goals
